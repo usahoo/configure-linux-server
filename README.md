@@ -351,7 +351,7 @@ Python should already be installed on a machine running Ubuntu 16.04. To verify,
 			ErrorLog ${APACHE_LOG_DIR}/error.log
 			LogLevel warn
 			CustomLog ${APACHE_LOG_DIR}/access.log combined
-	</VirtualHost>
+		</VirtualHost>
 	
 
 3. Run `sudo a2ensite itemCatalog` to enable the virtual host
@@ -433,6 +433,7 @@ Change the ownership of the project directories and files to the `www-data` user
 
 
 <br>
+
 ## 4. Please do write your feedback to:
 **Upendra Sahoo** <us9452@att.com><br>
 Currently pursuing a Nanodegree program with Udacity<br>
