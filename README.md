@@ -4,7 +4,7 @@ This project is about how to set up a Ubuntu Linux server to host an Item Catalo
 ## 1. Amazon Lightsail VM instance details
 The public IP address used is `100.24.2.187` and SSH port used is `2200`.
 
-The URL to the hosted web page is:
+The URLs to the hosted web page is:
 http://100.24.2.187/ or http://ec2-100-24-2-187.compute-1.amazonaws.com/
 
 ## 2. Software to install during the configuration
@@ -54,8 +54,10 @@ http://100.24.2.187/ or http://ec2-100-24-2-187.compute-1.amazonaws.com/
 
 ### III) Upgrade currently installed packages
 1. `sudo apt-get update`
-
 2. `sudo apt-get upgrade`
+3. `sudo apt-get -u upgrade --assume-no`
+4. `sudo apt-get dist-upgrade`
+5. `sudo apt-get install unattended-upgrades`
 
 
 ### IV) Configure the firewall
@@ -142,11 +144,13 @@ http://100.24.2.187/ or http://ec2-100-24-2-187.compute-1.amazonaws.com/
 
 10. Run `chmod 644 .ssh/authorized_keys` on the virtual machine
 
-11. Make sure key-based authentication is forced (log in as `grader`, open the `/etc/ssh/sshd_config` file, and set 'PasswordAuthentication to 'no'; save and exit the file.
+11. Make sure key-based authentication is forced (log in as `grader`, open the `/etc/ssh/sshd_config` file, and set 'PasswordAuthentication to 'no').
 
-12. Run `sudo service ssh restart`
+12. For security purposes, do not allow anyone to be able to log into our Ubuntu server as root remotely over SSH (set PermitRootLogin to 'no' in `/etc/ssh/sshd_config` file; save and exit the file).
 
-13. From local machine, log in as the grader using the following command:
+13. Run `sudo service ssh restart`
+
+14. From local machine, log in as the grader using the following command:
 
 	`ssh -i ~/.ssh/graderKey -p 2200 grader@100.24.2.187`
 
@@ -176,13 +180,10 @@ http://100.24.2.187/ or http://ec2-100-24-2-187.compute-1.amazonaws.com/
 
 2. Open the `sudo vi /etc/postgresql/9.5/main/pg_hba.conf` file and verify the following entries matches:
 
-	local   all             postgres                                peer
-
-	local   all             all                                     peer
-
-	host    all             all             127.0.0.1/32            md5
-
-	host    all             all             ::1/128                 md5
+		local   all             postgres                                peer
+		local   all             all                                     peer
+		host    all             all             127.0.0.1/32            md5
+		host    all             all             ::1/128                 md5
 
 
 ### XII) Make sure Python is installed
@@ -206,13 +207,11 @@ Python should already be installed on a machine running Ubuntu 16.04. To verify,
 
 6. Verify the `catalog` user was created by running `\du`; a table of sorts will be returned, and it should look like this:
 
-	```
-					   List of roles
-	 Role name |                         Attributes                         | Member of 
-	-----------+------------------------------------------------------------+-----------
-	 catalog   | Create DB                                                  | {}
-	 postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
-	```
+		Role name | List of roles Attributes                                   | Member of 
+	    ----------|------------------------------------------------------------|-----------
+	    catalog   | Create DB                                                  | {}
+	    postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+	
 
 7. Exit psql by running `\q`.
 
